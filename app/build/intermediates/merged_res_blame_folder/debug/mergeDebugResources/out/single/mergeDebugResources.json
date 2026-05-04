@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "com.pawsup.android.app-debug-71:/layout_notification_monitoring.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/layout/notification_monitoring.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_intro.webm.flat",
+        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_intro.webm"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_instagram.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_instagram.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_linkedin.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_linkedin.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_twitter.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_twitter.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_launcher_cat.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_launcher_cat.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_reddit.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_reddit.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_tiktok.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_tiktok.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_youtube.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_youtube.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_snapchat.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_snapchat.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_facebook.xml.flat",
+        "source": "com.pawsup.android.app-main-73:/drawable/ic_facebook.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_idle.webm.flat",
+        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_idle.webm"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_idle_org.webm.flat",
+        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_idle_org.webm"
+    }
+]

@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.pawsup.android.app-mergeDebugResources-69:/values-night-v8/values-night-v8.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\hp\\.gradle\\caches\\8.9\\transforms\\88cfc9b5dd2513117cee32a7c3f4fe0f\\transformed\\core-splashscreen-1.0.1\\res\\values-night-v8\\values-night-v8.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "85",
+                        "endOffsets": "136"
+                    }
+                }
+            ]
+        }
+    ]
+}

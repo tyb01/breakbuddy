@@ -1,0 +1,1 @@
+{"className":"com.pawsup.android.service.Hilt_BootCompletedReceiver","classAnnotations":["dagger.hilt.android.internal.OnReceiveBytecodeInjectionMarker"],"interfaces":[],"superClasses":["android.content.BroadcastReceiver","java.lang.Object"]}
