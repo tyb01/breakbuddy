@@ -473,23 +473,23 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
     private static final class LazyClassKeyProvider {
       static String com_pawsup_apppicker_AppPickerViewModel = "com.pawsup.apppicker.AppPickerViewModel";
 
+      static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
+
       static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
 
       static String com_pawsup_break_experience_BreakOverlayViewModel = "com.pawsup.break_experience.BreakOverlayViewModel";
 
-      static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
-
       @KeepFieldType
       AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
+
+      @KeepFieldType
+      SettingsViewModel com_pawsup_settings_SettingsViewModel2;
 
       @KeepFieldType
       PaywallViewModel com_pawsup_paywall_PaywallViewModel2;
 
       @KeepFieldType
       BreakOverlayViewModel com_pawsup_break_experience_BreakOverlayViewModel2;
-
-      @KeepFieldType
-      SettingsViewModel com_pawsup_settings_SettingsViewModel2;
     }
   }
 
@@ -541,19 +541,19 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
-
       static String com_pawsup_apppicker_AppPickerViewModel = "com.pawsup.apppicker.AppPickerViewModel";
+
+      static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
 
       static String com_pawsup_break_experience_BreakOverlayViewModel = "com.pawsup.break_experience.BreakOverlayViewModel";
 
       static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
 
       @KeepFieldType
-      SettingsViewModel com_pawsup_settings_SettingsViewModel2;
+      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
 
       @KeepFieldType
-      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
+      SettingsViewModel com_pawsup_settings_SettingsViewModel2;
 
       @KeepFieldType
       BreakOverlayViewModel com_pawsup_break_experience_BreakOverlayViewModel2;
