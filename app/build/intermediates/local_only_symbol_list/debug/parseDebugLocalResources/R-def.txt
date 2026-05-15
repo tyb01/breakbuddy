@@ -16,8 +16,9 @@ id notif_line2
 layout notification_monitoring
 plurals notif_break_body_minutes
 raw neko_gate_idle
-raw neko_gate_idle_org
+raw neko_gate_idle1
 raw neko_gate_intro
+raw neko_gate_intro1
 string app_name
 string cat_display_name
 string customize_body

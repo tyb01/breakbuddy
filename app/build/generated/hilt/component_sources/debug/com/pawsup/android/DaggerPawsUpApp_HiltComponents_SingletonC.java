@@ -426,20 +426,20 @@ public final class DaggerPawsUpApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_pawsup_android_ui_screens_home_HomeViewModel = "com.pawsup.android.ui.screens.home.HomeViewModel";
-
       static String com_pawsup_android_ui_screens_customize_CustomizeViewModel = "com.pawsup.android.ui.screens.customize.CustomizeViewModel";
 
       static String com_pawsup_android_ui_screens_onboarding_OnboardingViewModel = "com.pawsup.android.ui.screens.onboarding.OnboardingViewModel";
 
-      @KeepFieldType
-      HomeViewModel com_pawsup_android_ui_screens_home_HomeViewModel2;
+      static String com_pawsup_android_ui_screens_home_HomeViewModel = "com.pawsup.android.ui.screens.home.HomeViewModel";
 
       @KeepFieldType
       CustomizeViewModel com_pawsup_android_ui_screens_customize_CustomizeViewModel2;
 
       @KeepFieldType
       OnboardingViewModel com_pawsup_android_ui_screens_onboarding_OnboardingViewModel2;
+
+      @KeepFieldType
+      HomeViewModel com_pawsup_android_ui_screens_home_HomeViewModel2;
     }
   }
 
@@ -490,17 +490,17 @@ public final class DaggerPawsUpApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_pawsup_android_ui_screens_home_HomeViewModel = "com.pawsup.android.ui.screens.home.HomeViewModel";
-
       static String com_pawsup_android_ui_screens_onboarding_OnboardingViewModel = "com.pawsup.android.ui.screens.onboarding.OnboardingViewModel";
+
+      static String com_pawsup_android_ui_screens_home_HomeViewModel = "com.pawsup.android.ui.screens.home.HomeViewModel";
 
       static String com_pawsup_android_ui_screens_customize_CustomizeViewModel = "com.pawsup.android.ui.screens.customize.CustomizeViewModel";
 
       @KeepFieldType
-      HomeViewModel com_pawsup_android_ui_screens_home_HomeViewModel2;
+      OnboardingViewModel com_pawsup_android_ui_screens_onboarding_OnboardingViewModel2;
 
       @KeepFieldType
-      OnboardingViewModel com_pawsup_android_ui_screens_onboarding_OnboardingViewModel2;
+      HomeViewModel com_pawsup_android_ui_screens_home_HomeViewModel2;
 
       @KeepFieldType
       CustomizeViewModel com_pawsup_android_ui_screens_customize_CustomizeViewModel2;

@@ -235,8 +235,9 @@ layout notification_template_part_time
 layout splash_screen_view
 plurals notif_break_body_minutes
 raw neko_gate_idle
-raw neko_gate_idle_org
+raw neko_gate_idle1
 raw neko_gate_intro
+raw neko_gate_intro1
 string androidx_startup
 string app_name
 string call_notification_answer_action

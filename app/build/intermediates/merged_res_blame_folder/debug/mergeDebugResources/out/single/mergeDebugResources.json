@@ -4,12 +4,20 @@
         "source": "com.pawsup.android.app-main-73:/layout/notification_monitoring.xml"
     },
     {
+        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_intro1.webm.flat",
+        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_intro1.webm"
+    },
+    {
         "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_intro.webm.flat",
         "source": "com.pawsup.android.app-main-73:/raw/neko_gate_intro.webm"
     },
     {
         "merged": "com.pawsup.android.app-debug-71:/drawable_ic_instagram.xml.flat",
         "source": "com.pawsup.android.app-main-73:/drawable/ic_instagram.xml"
+    },
+    {
+        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_idle1.webm.flat",
+        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_idle1.webm"
     },
     {
         "merged": "com.pawsup.android.app-debug-71:/drawable_ic_linkedin.xml.flat",
@@ -46,9 +54,5 @@
     {
         "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_idle.webm.flat",
         "source": "com.pawsup.android.app-main-73:/raw/neko_gate_idle.webm"
-    },
-    {
-        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_idle_org.webm.flat",
-        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_idle_org.webm"
     }
 ]
