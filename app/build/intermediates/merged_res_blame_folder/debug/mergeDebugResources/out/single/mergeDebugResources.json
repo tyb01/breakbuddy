@@ -1,58 +1,70 @@
 [
     {
-        "merged": "com.pawsup.android.app-debug-71:/layout_notification_monitoring.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/layout/notification_monitoring.xml"
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_youtube.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_youtube.xml"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_intro1.webm.flat",
-        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_intro1.webm"
+        "merged": "com.pawsup.app-debug-80:/font_crimsontext_bold.ttf.flat",
+        "source": "com.pawsup.app-main-82:/font/crimsontext_bold.ttf"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_intro.webm.flat",
-        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_intro.webm"
+        "merged": "com.pawsup.app-debug-80:/font_crimsontext_regular.ttf.flat",
+        "source": "com.pawsup.app-main-82:/font/crimsontext_regular.ttf"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_instagram.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_instagram.xml"
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_snapchat.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_snapchat.xml"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_idle1.webm.flat",
-        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_idle1.webm"
+        "merged": "com.pawsup.app-debug-80:/layout_notification_monitoring.xml.flat",
+        "source": "com.pawsup.app-main-82:/layout/notification_monitoring.xml"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_linkedin.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_linkedin.xml"
+        "merged": "com.pawsup.app-debug-80:/font_crimsontext_bolditalic.ttf.flat",
+        "source": "com.pawsup.app-main-82:/font/crimsontext_bolditalic.ttf"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_twitter.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_twitter.xml"
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_launcher_cat.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_launcher_cat.xml"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_launcher_cat.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_launcher_cat.xml"
+        "merged": "com.pawsup.app-debug-80:/font_crimsontext_semibolditalic.ttf.flat",
+        "source": "com.pawsup.app-main-82:/font/crimsontext_semibolditalic.ttf"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_reddit.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_reddit.xml"
+        "merged": "com.pawsup.app-debug-80:/font_crimsontext_semibold.ttf.flat",
+        "source": "com.pawsup.app-main-82:/font/crimsontext_semibold.ttf"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_tiktok.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_tiktok.xml"
+        "merged": "com.pawsup.app-debug-80:/font_crimsontext_italic.ttf.flat",
+        "source": "com.pawsup.app-main-82:/font/crimsontext_italic.ttf"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_youtube.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_youtube.xml"
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_linkedin.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_linkedin.xml"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_snapchat.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_snapchat.xml"
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_tiktok.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_tiktok.xml"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/drawable_ic_facebook.xml.flat",
-        "source": "com.pawsup.android.app-main-73:/drawable/ic_facebook.xml"
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_reddit.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_reddit.xml"
     },
     {
-        "merged": "com.pawsup.android.app-debug-71:/raw_neko_gate_idle.webm.flat",
-        "source": "com.pawsup.android.app-main-73:/raw/neko_gate_idle.webm"
+        "merged": "com.pawsup.app-debug-80:/xml_file_paths.xml.flat",
+        "source": "com.pawsup.app-main-82:/xml/file_paths.xml"
+    },
+    {
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_twitter.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_twitter.xml"
+    },
+    {
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_facebook.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_facebook.xml"
+    },
+    {
+        "merged": "com.pawsup.app-debug-80:/drawable_ic_instagram.xml.flat",
+        "source": "com.pawsup.app-main-82:/drawable/ic_instagram.xml"
     }
 ]

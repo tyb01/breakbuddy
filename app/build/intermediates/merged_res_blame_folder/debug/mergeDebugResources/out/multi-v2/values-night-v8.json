@@ -1,16 +1,16 @@
 {
     "logs": [
         {
-            "outputFile": "com.pawsup.android.app-mergeDebugResources-69:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.pawsup.app-mergeDebugResources-78:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hp\\.gradle\\caches\\8.9\\transforms\\88cfc9b5dd2513117cee32a7c3f4fe0f\\transformed\\core-splashscreen-1.0.1\\res\\values-night-v8\\values-night-v8.xml",
+                    "source": "C:\\Users\\hp\\.gradle\\caches\\8.9\\transforms\\4c7fe162aa25bb5b8caedc7b118a9d1b\\transformed\\appcompat-1.7.0\\res\\values-night-v8\\values-night-v8.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "85",
-                        "endOffsets": "136"
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,125,209,293,389,491,593,687",
+                        "endColumns": "69,83,83,95,101,101,93,88",
+                        "endOffsets": "120,204,288,384,486,588,682,771"
                     }
                 }
             ]

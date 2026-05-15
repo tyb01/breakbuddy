@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_bg">#FFF8F0</color>
-    <color name="input_field_orange">#E65100</color>
+    <color name="ic_launcher_bg">#1A1208</color>
+    <color name="color_background_dark">#0F0A08</color>
+    <color name="color_background_warm">#2A1F1A</color>
+    <color name="color_text_cream">#F5ECD7</color>
+    <color name="color_miso_mood">#E8A87C</color>
 </resources>
