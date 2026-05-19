@@ -82,8 +82,12 @@ class SettingsViewModel @Inject constructor(
             val intent = android.content.Intent(context, com.pawsup.monitoring.MonitoringService::class.java)
             if (enabled) {
                 androidx.core.content.ContextCompat.startForegroundService(context, intent)
+                com.pawsup.monitoring.WatchdogWorker.enqueue(context)
+                com.pawsup.monitoring.AlarmScheduler.schedule(context)
             } else {
                 context.stopService(intent)
+                com.pawsup.monitoring.WatchdogWorker.cancel(context)
+                com.pawsup.monitoring.AlarmScheduler.cancel(context)
             }
         }
     }

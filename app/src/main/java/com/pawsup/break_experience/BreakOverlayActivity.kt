@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pawsup.cats.Cat
-import com.pawsup.cats.CatAssetResolver
 import com.pawsup.cats.CatRegistry
 import com.pawsup.break_experience.components.*
 import com.pawsup.paywall.PaywallActivity
@@ -74,8 +72,6 @@ class BreakOverlayActivity : ComponentActivity() {
                     onEntranceComplete = vm::onEntranceComplete,
                     onOutroComplete = vm::onOutroComplete,
                     onPet = { vm.onPetTapped(); playPurr(cat) },
-                    onLongPress = vm::onLongPressEscape,
-                    onEscapeConfirmed = vm::onEscapeConfirmed,
                     onGuestMeet = { guestCat ->
                         vm.dismissGuestVisit()
                         startActivity(
@@ -155,13 +151,9 @@ private fun BreakOverlayScreen(
     onEntranceComplete: () -> Unit,
     onOutroComplete: () -> Unit,
     onPet: () -> Unit,
-    onLongPress: () -> Unit,
-    onEscapeConfirmed: () -> Unit,
     onGuestMeet: (Cat) -> Unit,
     onGuestDismiss: () -> Unit
 ) {
-    // Background is the cat's own background color — the video's solid bg matches,
-    // so the cat floats naturally without any chroma key processing.
     val bgColor = remember(cat.backgroundColorHex) {
         Color(android.graphics.Color.parseColor(cat.backgroundColorHex))
     }
@@ -171,67 +163,60 @@ private fun BreakOverlayScreen(
             .fillMaxSize()
             .background(bgColor)
     ) {
-        LongPressEscapeLayer(
-            showEscapeText = state.showEscapeText,
-            onLongPress = onLongPress,
-            onEscapeConfirmed = onEscapeConfirmed,
-            modifier = Modifier.fillMaxSize()
+        // Cat video — background color matches overlay so cat floats naturally
+        BreakVideoPlayer(
+            catId = cat.id,
+            breakState = state.breakState,
+            onEntranceComplete = onEntranceComplete,
+            onOutroComplete = onOutroComplete
+        )
+
+        // Invisible pet tap zone: lower 50% width × lower 40% height
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(0.5f)
+                .fillMaxHeight(0.4f)
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = { onPet() })
+                }
+        )
+
+        // Dialogue bubble — top, below status bar
+        CatDialogueBubble(
+            line = state.currentDialogueLine,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .statusBarsPadding()
+                .padding(top = 20.dp)
+        )
+
+        // Timer — below dialogue, just the countdown, 80% opacity
+        BreakTimerDisplay(
+            remainingSeconds = state.remainingSeconds,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .statusBarsPadding()
+                .padding(top = 100.dp)
+        )
+
+        // Pet hint fades in at t=10s
+        AnimatedVisibility(
+            visible = state.showPetHint,
+            enter = fadeIn(tween(600)),
+            exit = fadeOut(tween(600)),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 100.dp)
         ) {
-            // Cat video — background color matches overlay so cat floats naturally
-            BreakVideoPlayer(
-                catId = cat.id,
-                breakState = state.breakState,
-                onEntranceComplete = onEntranceComplete,
-                onOutroComplete = onOutroComplete
+            Text(
+                text = stringResource(com.pawsup.R.string.break_pet_hint),
+                color = Color.White.copy(alpha = 0.6f),
+                fontSize = 14.sp
             )
-
-            // Invisible pet tap zone: lower 50% width × lower 40% height
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth(0.5f)
-                    .fillMaxHeight(0.4f)
-                    .pointerInput(Unit) {
-                        detectTapGestures(onTap = { onPet() })
-                    }
-            )
-
-            // Dialogue bubble — top, below status bar
-            CatDialogueBubble(
-                line = state.currentDialogueLine,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .statusBarsPadding()
-                    .padding(top = 20.dp)
-            )
-
-            // Timer — below dialogue, just the countdown, 80% opacity
-            BreakTimerDisplay(
-                remainingSeconds = state.remainingSeconds,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .statusBarsPadding()
-                    .padding(top = 100.dp)
-            )
-
-            // Pet hint fades in at t=10s
-            AnimatedVisibility(
-                visible = state.showPetHint,
-                enter = fadeIn(tween(600)),
-                exit = fadeOut(tween(600)),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 100.dp)
-            ) {
-                Text(
-                    text = stringResource(com.pawsup.R.string.break_pet_hint),
-                    color = Color.White.copy(alpha = 0.6f),
-                    fontSize = 14.sp
-                )
-            }
         }
 
-        // Guest visit overlay (rendered above long-press layer)
+        // Guest visit overlay
         if (state.breakState is BreakState.GuestVisit) {
             GuestVisitOverlay(
                 guestCat = state.breakState.guestCat,

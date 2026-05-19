@@ -2,6 +2,7 @@ package com.pawsup.monitoring;
 
 import android.content.Context;
 import androidx.work.WorkerParameters;
+import com.pawsup.data.UserPreferences;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
@@ -25,20 +26,25 @@ import javax.inject.Provider;
 public final class WatchdogWorker_Factory {
   private final Provider<MonitoringRepository> repoProvider;
 
-  public WatchdogWorker_Factory(Provider<MonitoringRepository> repoProvider) {
+  private final Provider<UserPreferences> prefsProvider;
+
+  public WatchdogWorker_Factory(Provider<MonitoringRepository> repoProvider,
+      Provider<UserPreferences> prefsProvider) {
     this.repoProvider = repoProvider;
+    this.prefsProvider = prefsProvider;
   }
 
   public WatchdogWorker get(Context context, WorkerParameters params) {
-    return newInstance(context, params, repoProvider.get());
+    return newInstance(context, params, repoProvider.get(), prefsProvider.get());
   }
 
-  public static WatchdogWorker_Factory create(Provider<MonitoringRepository> repoProvider) {
-    return new WatchdogWorker_Factory(repoProvider);
+  public static WatchdogWorker_Factory create(Provider<MonitoringRepository> repoProvider,
+      Provider<UserPreferences> prefsProvider) {
+    return new WatchdogWorker_Factory(repoProvider, prefsProvider);
   }
 
   public static WatchdogWorker newInstance(Context context, WorkerParameters params,
-      MonitoringRepository repo) {
-    return new WatchdogWorker(context, params, repo);
+      MonitoringRepository repo, UserPreferences prefs) {
+    return new WatchdogWorker(context, params, repo, prefs);
   }
 }

@@ -85,6 +85,17 @@
             </intent-filter>
         </receiver>
 
+        <!-- Chain-alarm keep-alive: Doze-immune secondary restart layer -->
+        <receiver
+            android:name=".monitoring.KeepAliveReceiver"
+            android:exported="false">
+            <intent-filter>
+                <!-- Re-arm alarm after app update (alarm survives update on most devices,
+                     but this is a safety net for devices that clear alarms on update) -->
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

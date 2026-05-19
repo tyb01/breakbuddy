@@ -19,14 +19,6 @@ import javax.inject.Inject
 
 private const val TAG = "PawsUp"
 
-/**
- * ACTIVITY_RESUMED from UsageEvents can flicker (launcher / system packages win briefly during
- * gestures, recents, OEM quirks) even though the monitored app is still visibly in use. Delay
- * ending the active session until this many consecutive polls with no monitored foreground.
- * At 2s poll interval × 4 ≈ 8s genuinely away before the visit timer resets.
- */
-private const val OUTSIDE_MONITORED_DEBOUNCE_POLLS = 4
-
 @AndroidEntryPoint
 class MonitoringService : Service() {
 
@@ -38,28 +30,42 @@ class MonitoringService : Service() {
     private var currentSessionPackage: String? = null
     private var sessionStartTime: Long = 0L
     private var breakFireable = true
-    private var outsideMonitoredStreak = 0
 
     override fun onCreate() {
         super.onCreate()
         repo.isServiceRunning = true
         val notification = buildNotification()
-        // API 34+ requires explicit foreground service type in startForeground()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(NOTIF_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
         } else {
             startForeground(NOTIF_ID, notification)
         }
         WatchdogWorker.enqueue(this)
+        AlarmScheduler.schedule(this)   // exact-alarm keep-alive (Doze-immune)
         startPolling()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // When Android restarts the service via START_STICKY (intent == null),
+        // verify Monitor Me is still enabled before continuing.
+        if (intent == null) {
+            scope.launch {
+                if (!prefs.snapshotMonitorMeEnabled()) {
+                    Log.d(TAG, "service: Monitor Me disabled — stopping self")
+                    stopSelf()
+                }
+            }
+        }
+        return START_STICKY
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         repo.isServiceRunning = false
         scope.cancel()
+        // Alarm is intentionally left running — KeepAliveReceiver will restart the
+        // service unless Monitor Me is OFF. If Monitor Me is OFF, the receiver
+        // checks and skips. AlarmScheduler.cancel() is called explicitly by SettingsViewModel.
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -67,7 +73,9 @@ class MonitoringService : Service() {
     private fun startPolling() {
         scope.launch {
             while (isActive) {
-                try { onPoll() } catch (e: Exception) { /* keep polling on any error */ }
+                try { onPoll() } catch (e: Exception) {
+                    Log.e(TAG, "poll error: ${e.message}")
+                }
                 delay(2_000)
             }
         }
@@ -80,53 +88,37 @@ class MonitoringService : Service() {
             return
         }
 
-        val visitLimitMinutes = prefs.snapshotMaxMinutes()
-        val lookbackMs = maxOf(visitLimitMinutes * 60_000L * 2, 600_000L)
-        val foreground = getForegroundPackage(lookbackMs)
+        // Read visit limit on every poll so Settings changes are picked up immediately.
+        val maxMin = prefs.snapshotMaxMinutes()
+        // Query window = at least double the visit limit, minimum 10 minutes.
+        val windowMs = maxOf(maxMin * 60_000L * 2, 600_000L)
+
+        val foreground = getForegroundPackage(windowMs)
         Log.d(TAG, "poll: foreground=$foreground  monitored=$monitored  session=$currentSessionPackage")
 
-        if (foreground != null && foreground in monitored) {
-            outsideMonitoredStreak = 0
-            if (foreground != currentSessionPackage) {
-                currentSessionPackage = foreground
-                sessionStartTime = System.currentTimeMillis()
+        if (foreground == null || foreground !in monitored) {
+            if (currentSessionPackage != null) {
+                currentSessionPackage = null
                 breakFireable = true
-                Log.d(TAG, "poll: session started for $foreground")
-                return
-            }
-
-            val elapsedSec = (System.currentTimeMillis() - sessionStartTime) / 1_000
-            Log.d(TAG, "poll: ${elapsedSec}s elapsed, limit=${visitLimitMinutes}min, fireable=$breakFireable")
-            if (elapsedSec >= visitLimitMinutes * 60L && breakFireable) {
-                breakFireable = false
-                Log.d(TAG, "poll: FIRING break overlay!")
-                fireBreakOverlay()
             }
             return
         }
 
-        val session = currentSessionPackage
-        if (session != null && session in monitored) {
-            outsideMonitoredStreak++
-            if (outsideMonitoredStreak < OUTSIDE_MONITORED_DEBOUNCE_POLLS) {
-                val elapsedSec = (System.currentTimeMillis() - sessionStartTime) / 1_000
-                Log.d(
-                    TAG,
-                    "poll: debouncing away (outside=$outsideMonitoredStreak) fg=$foreground ${elapsedSec}s limit=${visitLimitMinutes}min session=$session"
-                )
-                if (elapsedSec >= visitLimitMinutes * 60L && breakFireable) {
-                    breakFireable = false
-                    Log.d(TAG, "poll: FIRING break overlay!")
-                    fireBreakOverlay()
-                }
-                return
-            }
+        if (foreground != currentSessionPackage) {
+            currentSessionPackage = foreground
+            sessionStartTime = System.currentTimeMillis()
+            breakFireable = true
+            Log.d(TAG, "poll: session started for $foreground")
+            return
         }
 
-        outsideMonitoredStreak = 0
-        if (session != null) {
-            currentSessionPackage = null
-            breakFireable = true
+        val elapsedSec = (System.currentTimeMillis() - sessionStartTime) / 1_000
+        Log.d(TAG, "poll: ${elapsedSec}s elapsed, limit=${maxMin}min, fireable=$breakFireable")
+
+        if (elapsedSec >= maxMin * 60L && breakFireable) {
+            breakFireable = false
+            Log.d(TAG, "poll: FIRING break overlay!")
+            fireBreakOverlay()
         }
     }
 
@@ -135,7 +127,7 @@ class MonitoringService : Service() {
         val breakMin = prefs.snapshotBreakMinutes()
         startActivity(
             Intent(this, BreakOverlayActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 .putExtra(BreakOverlayActivity.EXTRA_CAT_ID, catId)
                 .putExtra(BreakOverlayActivity.EXTRA_BREAK_MINUTES, breakMin)
         )
@@ -143,14 +135,13 @@ class MonitoringService : Service() {
 
     /**
      * Returns the package with the most recent ACTIVITY_RESUMED event.
-     * Deliberately ignores PAUSED events — apps like Instagram fire internal
-     * PAUSED/RESUMED pairs (dialogs, fragments) that cause false negatives.
-     * The poll loop debounces session end when foreground is briefly non-monitored (launcher/recents flicker).
+     * [windowMs] is read from the configured visit limit (2× the limit, min 10 min)
+     * so the event stays in-window for the entire session duration.
      */
-    private fun getForegroundPackage(lookbackMs: Long): String? {
+    private fun getForegroundPackage(windowMs: Long): String? {
         val usm = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         val now = System.currentTimeMillis()
-        val events = usm.queryEvents(now - lookbackMs, now) ?: return null
+        val events = usm.queryEvents(now - windowMs, now) ?: return null
 
         var latestPkg: String? = null
         var latestTime = 0L
@@ -172,17 +163,14 @@ class MonitoringService : Service() {
         val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (nm.getNotificationChannel(channelId) == null) {
             nm.createNotificationChannel(
-                NotificationChannel(
-                    channelId,
-                    getString(R.string.notification_monitoring_title),
-                    NotificationManager.IMPORTANCE_MIN
-                ).apply { setShowBadge(false) }
+                NotificationChannel(channelId, getString(R.string.notification_monitoring_title),
+                    NotificationManager.IMPORTANCE_MIN).apply { setShowBadge(false) }
             )
         }
         val openIntent = PendingIntent.getActivity(
             this, 0,
             packageManager.getLaunchIntentForPackage(packageName),
-            PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         return NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_launcher_cat)
@@ -198,7 +186,6 @@ class MonitoringService : Service() {
     fun resetSession() {
         currentSessionPackage = null
         breakFireable = true
-        outsideMonitoredStreak = 0
     }
 
     companion object {

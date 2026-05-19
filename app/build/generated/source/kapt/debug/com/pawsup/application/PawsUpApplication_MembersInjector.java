@@ -2,6 +2,7 @@ package com.pawsup.application;
 
 import androidx.hilt.work.HiltWorkerFactory;
 import com.pawsup.billing.BillingClientWrapper;
+import com.pawsup.cats.CatRegistry;
 import dagger.MembersInjector;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.InjectedFieldSignature;
@@ -27,22 +28,28 @@ public final class PawsUpApplication_MembersInjector implements MembersInjector<
 
   private final Provider<BillingClientWrapper> billingClientProvider;
 
+  private final Provider<CatRegistry> catRegistryProvider;
+
   public PawsUpApplication_MembersInjector(Provider<HiltWorkerFactory> workerFactoryProvider,
-      Provider<BillingClientWrapper> billingClientProvider) {
+      Provider<BillingClientWrapper> billingClientProvider,
+      Provider<CatRegistry> catRegistryProvider) {
     this.workerFactoryProvider = workerFactoryProvider;
     this.billingClientProvider = billingClientProvider;
+    this.catRegistryProvider = catRegistryProvider;
   }
 
   public static MembersInjector<PawsUpApplication> create(
       Provider<HiltWorkerFactory> workerFactoryProvider,
-      Provider<BillingClientWrapper> billingClientProvider) {
-    return new PawsUpApplication_MembersInjector(workerFactoryProvider, billingClientProvider);
+      Provider<BillingClientWrapper> billingClientProvider,
+      Provider<CatRegistry> catRegistryProvider) {
+    return new PawsUpApplication_MembersInjector(workerFactoryProvider, billingClientProvider, catRegistryProvider);
   }
 
   @Override
   public void injectMembers(PawsUpApplication instance) {
     injectWorkerFactory(instance, workerFactoryProvider.get());
     injectBillingClient(instance, billingClientProvider.get());
+    injectCatRegistry(instance, catRegistryProvider.get());
   }
 
   @InjectedFieldSignature("com.pawsup.application.PawsUpApplication.workerFactory")
@@ -55,5 +62,10 @@ public final class PawsUpApplication_MembersInjector implements MembersInjector<
   public static void injectBillingClient(PawsUpApplication instance,
       BillingClientWrapper billingClient) {
     instance.billingClient = billingClient;
+  }
+
+  @InjectedFieldSignature("com.pawsup.application.PawsUpApplication.catRegistry")
+  public static void injectCatRegistry(PawsUpApplication instance, CatRegistry catRegistry) {
+    instance.catRegistry = catRegistry;
   }
 }

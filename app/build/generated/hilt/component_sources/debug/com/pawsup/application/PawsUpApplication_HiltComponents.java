@@ -8,6 +8,7 @@ import com.pawsup.break_experience.BreakOverlayViewModel_HiltModules;
 import com.pawsup.di.AppModule;
 import com.pawsup.di.PackageManagerModule;
 import com.pawsup.monitoring.BootReceiver_GeneratedInjector;
+import com.pawsup.monitoring.KeepAliveReceiver_GeneratedInjector;
 import com.pawsup.monitoring.MonitoringService_GeneratedInjector;
 import com.pawsup.monitoring.WatchdogWorker_HiltModule;
 import com.pawsup.onboarding.OnboardingActivity_GeneratedInjector;
@@ -153,6 +154,7 @@ public final class PawsUpApplication_HiltComponents {
   @Singleton
   public abstract static class SingletonC implements PawsUpApplication_GeneratedInjector,
       BootReceiver_GeneratedInjector,
+      KeepAliveReceiver_GeneratedInjector,
       FragmentGetContextFix.FragmentGetContextFixEntryPoint,
       HiltWrapper_ActivityRetainedComponentManager_ActivityRetainedComponentBuilderEntryPoint,
       ServiceComponentManager.ServiceComponentBuilderEntryPoint,

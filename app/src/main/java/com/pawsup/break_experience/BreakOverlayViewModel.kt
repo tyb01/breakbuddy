@@ -24,7 +24,6 @@ data class BreakUiState(
     val currentDialogueLine: String = "",
     val sessionPetCount: Int = 0,
     val showPetHint: Boolean = false,
-    val showEscapeText: Boolean = false,
     val totalBreaks: Int = 0
 )
 
@@ -199,23 +198,6 @@ class BreakOverlayViewModel @Inject constructor(
             _state.update { it.copy(sessionPetCount = it.sessionPetCount + 1) }
             prefs.incrementPetsLifetime()
         }
-    }
-
-    fun onLongPressEscape() {
-        _state.update { it.copy(showEscapeText = true) }
-    }
-
-    fun onEscapeConfirmed() {
-        timerJob?.cancel()
-        dialogueJob?.cancel()
-        guestScheduleJob?.cancel()
-        _state.update { it.copy(
-            breakState = BreakState.Outro,
-            currentDialogueLine = _state.value.cat?.voiceBucket?.let {
-                CatVoiceProvider.getGoodbye(it)
-            } ?: "",
-            showEscapeText = false
-        )}
     }
 
     private fun LongRange.random() = Random.nextLong(first, last + 1)

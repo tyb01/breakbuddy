@@ -32,6 +32,8 @@ import com.pawsup.di.AppModule_ProvideUserPreferencesFactory;
 import com.pawsup.di.PackageManagerModule_ProvidePackageManagerFactory;
 import com.pawsup.monitoring.BootReceiver;
 import com.pawsup.monitoring.BootReceiver_MembersInjector;
+import com.pawsup.monitoring.KeepAliveReceiver;
+import com.pawsup.monitoring.KeepAliveReceiver_MembersInjector;
 import com.pawsup.monitoring.MonitoringRepository;
 import com.pawsup.monitoring.MonitoringService;
 import com.pawsup.monitoring.MonitoringService_MembersInjector;
@@ -475,9 +477,9 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
       static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
 
-      static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
-
       static String com_pawsup_break_experience_BreakOverlayViewModel = "com.pawsup.break_experience.BreakOverlayViewModel";
+
+      static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
 
       @KeepFieldType
       AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
@@ -486,10 +488,10 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
       SettingsViewModel com_pawsup_settings_SettingsViewModel2;
 
       @KeepFieldType
-      PaywallViewModel com_pawsup_paywall_PaywallViewModel2;
+      BreakOverlayViewModel com_pawsup_break_experience_BreakOverlayViewModel2;
 
       @KeepFieldType
-      BreakOverlayViewModel com_pawsup_break_experience_BreakOverlayViewModel2;
+      PaywallViewModel com_pawsup_paywall_PaywallViewModel2;
     }
   }
 
@@ -541,19 +543,19 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_pawsup_apppicker_AppPickerViewModel = "com.pawsup.apppicker.AppPickerViewModel";
-
       static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
+
+      static String com_pawsup_apppicker_AppPickerViewModel = "com.pawsup.apppicker.AppPickerViewModel";
 
       static String com_pawsup_break_experience_BreakOverlayViewModel = "com.pawsup.break_experience.BreakOverlayViewModel";
 
       static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
 
       @KeepFieldType
-      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
+      SettingsViewModel com_pawsup_settings_SettingsViewModel2;
 
       @KeepFieldType
-      SettingsViewModel com_pawsup_settings_SettingsViewModel2;
+      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
 
       @KeepFieldType
       BreakOverlayViewModel com_pawsup_break_experience_BreakOverlayViewModel2;
@@ -688,11 +690,11 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
     private Provider<MonitoringRepository> monitoringRepositoryProvider;
 
+    private Provider<UserPreferences> provideUserPreferencesProvider;
+
     private Provider<WatchdogWorker_AssistedFactory> watchdogWorker_AssistedFactoryProvider;
 
     private Provider<BillingClientWrapper> billingClientWrapperProvider;
-
-    private Provider<UserPreferences> provideUserPreferencesProvider;
 
     private Provider<CatRegistry> provideCatRegistryProvider;
 
@@ -720,9 +722,9 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
       this.monitoringRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<MonitoringRepository>(singletonCImpl, 1));
+      this.provideUserPreferencesProvider = DoubleCheck.provider(new SwitchingProvider<UserPreferences>(singletonCImpl, 2));
       this.watchdogWorker_AssistedFactoryProvider = SingleCheck.provider(new SwitchingProvider<WatchdogWorker_AssistedFactory>(singletonCImpl, 0));
-      this.billingClientWrapperProvider = DoubleCheck.provider(new SwitchingProvider<BillingClientWrapper>(singletonCImpl, 2));
-      this.provideUserPreferencesProvider = DoubleCheck.provider(new SwitchingProvider<UserPreferences>(singletonCImpl, 3));
+      this.billingClientWrapperProvider = DoubleCheck.provider(new SwitchingProvider<BillingClientWrapper>(singletonCImpl, 3));
       this.provideCatRegistryProvider = DoubleCheck.provider(new SwitchingProvider<CatRegistry>(singletonCImpl, 4));
       this.providePackageManagerProvider = DoubleCheck.provider(new SwitchingProvider<PackageManager>(singletonCImpl, 6));
       this.installedAppsRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<InstalledAppsRepository>(singletonCImpl, 5));
@@ -737,6 +739,11 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
     @Override
     public void injectBootReceiver(BootReceiver arg0) {
       injectBootReceiver2(arg0);
+    }
+
+    @Override
+    public void injectKeepAliveReceiver(KeepAliveReceiver arg0) {
+      injectKeepAliveReceiver2(arg0);
     }
 
     @Override
@@ -757,11 +764,18 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
     private PawsUpApplication injectPawsUpApplication2(PawsUpApplication instance) {
       PawsUpApplication_MembersInjector.injectWorkerFactory(instance, hiltWorkerFactory());
       PawsUpApplication_MembersInjector.injectBillingClient(instance, billingClientWrapperProvider.get());
+      PawsUpApplication_MembersInjector.injectCatRegistry(instance, provideCatRegistryProvider.get());
       return instance;
     }
 
     private BootReceiver injectBootReceiver2(BootReceiver instance) {
       BootReceiver_MembersInjector.injectPrefs(instance, provideUserPreferencesProvider.get());
+      return instance;
+    }
+
+    private KeepAliveReceiver injectKeepAliveReceiver2(KeepAliveReceiver instance) {
+      KeepAliveReceiver_MembersInjector.injectPrefs(instance, provideUserPreferencesProvider.get());
+      KeepAliveReceiver_MembersInjector.injectRepo(instance, monitoringRepositoryProvider.get());
       return instance;
     }
 
@@ -783,18 +797,18 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
           return (T) new WatchdogWorker_AssistedFactory() {
             @Override
             public WatchdogWorker create(Context context, WorkerParameters params) {
-              return new WatchdogWorker(context, params, singletonCImpl.monitoringRepositoryProvider.get());
+              return new WatchdogWorker(context, params, singletonCImpl.monitoringRepositoryProvider.get(), singletonCImpl.provideUserPreferencesProvider.get());
             }
           };
 
           case 1: // com.pawsup.monitoring.MonitoringRepository 
           return (T) new MonitoringRepository();
 
-          case 2: // com.pawsup.billing.BillingClientWrapper 
-          return (T) new BillingClientWrapper(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
-
-          case 3: // com.pawsup.data.UserPreferences 
+          case 2: // com.pawsup.data.UserPreferences 
           return (T) AppModule_ProvideUserPreferencesFactory.provideUserPreferences(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 3: // com.pawsup.billing.BillingClientWrapper 
+          return (T) new BillingClientWrapper(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
           case 4: // com.pawsup.cats.CatRegistry 
           return (T) AppModule_ProvideCatRegistryFactory.provideCatRegistry();
