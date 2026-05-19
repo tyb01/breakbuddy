@@ -1,51 +1,55 @@
-# PawsUp — What's Left To Do
+# PawsUp — Publishing Checklist
 
-Everything below must be done before the app can be published on the Play Store.
-Steps are in the exact order you should do them.
+Follow every step in this exact order. Each section matches what you see on the Play Console dashboard.
+
+> **Important:** Play Console locks the subscription creation screen until two things are done first:
+> 1. At least one approved build is uploaded (even to Internal Testing)
+> 2. Content rating and target audience forms are submitted
+>
+> Because of this, subscriptions are set up **after** the first internal build is uploaded and the required forms are filled — not before.
 
 ---
 
-## STEP 1 — Create Your Cat Videos
+## ── PHASE 1: PREPARE ASSETS AND CODE ────────────────────────────
 
-You need 3 videos per cat × 5 cats = 15 videos total.
+### STEP 1 — Create Cat Videos (15 files)
 
-**Specs for every video**
-- Format: MP4
-- Resolution: 720×1280 minimum (portrait, 9:16)
-- Frame rate: 30fps
-- No audio track in the video file
-- Background color: black (#000000) for Miso, Yuki, Mocha, Biscuit — teal (#0D4F4F) for Shadow only
+**Specs:** MP4, portrait 720×1280 min, 30fps, no audio.
+Background: black `#000000` for Miso/Yuki/Mocha/Biscuit — teal `#0D4F4F` for Shadow.
 
-**The 3 videos each cat needs**
-
-| File name | What happens | Length |
+| File | What it shows | Length |
 |---|---|---|
-| `entrance.mp4` | Cat walks in from bottom-right, settles in center | ~5 seconds |
-| `idle.mp4` | Cat sits, breathing/blinking loop. First frame = last frame exactly (seamless loop) | 6 seconds |
-| `outro.mp4` | Cat stretches and walks out bottom-left | ~5 seconds |
+| `entrance.mp4` | Cat walks in from bottom-right, settles center | ~5s |
+| `idle.mp4` | Cat sits, breathes/blinks loop — first frame = last frame | 6s |
+| `outro.mp4` | Cat stretches, walks out bottom-left | ~5s |
 
-**Where to put them**
+Place all files here:
 ```
 app/src/main/assets/cats/miso/entrance.mp4
 app/src/main/assets/cats/miso/idle.mp4
 app/src/main/assets/cats/miso/outro.mp4
 app/src/main/assets/cats/yuki/entrance.mp4
-... (same pattern for yuki, mocha, shadow, biscuit)
+app/src/main/assets/cats/yuki/idle.mp4
+app/src/main/assets/cats/yuki/outro.mp4
+app/src/main/assets/cats/mocha/entrance.mp4
+app/src/main/assets/cats/mocha/idle.mp4
+app/src/main/assets/cats/mocha/outro.mp4
+app/src/main/assets/cats/shadow/entrance.mp4
+app/src/main/assets/cats/shadow/idle.mp4
+app/src/main/assets/cats/shadow/outro.mp4
+app/src/main/assets/cats/biscuit/entrance.mp4
+app/src/main/assets/cats/biscuit/idle.mp4
+app/src/main/assets/cats/biscuit/outro.mp4
 ```
+
+- [ ] All 15 videos placed in the correct folders
 
 ---
 
-## STEP 2 — Create Your Cat Posters
+### STEP 2 — Create Cat Poster Images (5 files)
 
-You need 1 poster image per cat = 5 images total.
+**Specs:** WebP lossless, 1024×1024, transparent background, cat in settled pose.
 
-**Specs**
-- Format: WebP (lossless, supports transparency)
-- Size: 1024×1024 pixels (square)
-- Background: fully transparent (the app removes backgrounds automatically, but starting transparent gives cleaner edges)
-- Content: cat in a settled/resting pose
-
-**Where to put them**
 ```
 app/src/main/assets/cats/miso/poster.webp
 app/src/main/assets/cats/yuki/poster.webp
@@ -54,308 +58,459 @@ app/src/main/assets/cats/shadow/poster.webp
 app/src/main/assets/cats/biscuit/poster.webp
 ```
 
+- [ ] All 5 posters placed in the correct folders
+
 ---
 
-## STEP 3 — Create Your Sound Files
+### STEP 3 — Create Sound Files (2 files)
 
-You need 2 audio files.
-
-| File | What it is | Notes |
+| File | Sound | Length |
 |---|---|---|
-| `greeting.mp3` | A soft "mrrp" sound — plays when the cat arrives | Keep it short (~1 second) |
-| `purr.mp3` | A purring sound — plays each time the user taps the cat | 1–3 seconds |
+| `greeting.mp3` | Soft mrrp — plays when cat arrives | ~1s |
+| `purr.mp3` | Purring — plays when user taps cat | 1–3s |
 
-**Where to put them**
 ```
 app/src/main/assets/sounds/greeting.mp3
 app/src/main/assets/sounds/purr.mp3
 ```
 
----
-
-## STEP 4 — Create a Google Play Console Account
-
-1. Go to https://play.google.com/console
-2. Sign in with a Google account
-3. Pay the one-time $25 registration fee
-4. Fill in your developer name and contact details
-5. Accept the Developer Distribution Agreement
+- [ ] Both sound files placed in the correct folder
 
 ---
 
-## STEP 5 — Create the App in Play Console
+### STEP 4 — Remove Debug Logging From Code
 
-1. In Play Console, click **"Create app"**
-2. App name: `PawsUp`
-3. Default language: English
-4. App or Game: App
-5. Free or Paid: Free
-6. Accept the declarations and click **Create app**
+Open `app/src/main/java/com/pawsup/monitoring/MonitoringService.kt` and remove:
+- Every line starting with `Log.d(TAG, ...)`
+- The line `private const val TAG = "PawsUp"`
+- The line `import android.util.Log`
 
----
+Do the same in `WatchdogWorker.kt`, `BootReceiver.kt`, `KeepAliveReceiver.kt`.
 
-## STEP 6 — Set Up In-App Subscriptions
-
-In Play Console → your app → **Monetize → Subscriptions**
-
-Create these 5 subscription products one by one:
-
-**Product 1**
-- Product ID: `pawsup_yuki`
-- Add base plan: `yuki-monthly` — $1.99/month
-- Add base plan: `yuki-yearly` — $9.99/year, with 1-week free trial
-
-**Product 2**
-- Product ID: `pawsup_mocha`
-- Add base plan: `mocha-monthly` — $1.99/month
-- Add base plan: `mocha-yearly` — $9.99/year, with 1-week free trial
-
-**Product 3**
-- Product ID: `pawsup_shadow`
-- Add base plan: `shadow-monthly` — $1.99/month
-- Add base plan: `shadow-yearly` — $9.99/year, with 1-week free trial
-
-**Product 4**
-- Product ID: `pawsup_biscuit`
-- Add base plan: `biscuit-monthly` — $1.99/month
-- Add base plan: `biscuit-yearly` — $9.99/year, with 1-week free trial
-
-**Product 5**
-- Product ID: `pawsup_cafe_bundle`
-- Add base plan: `cafe-monthly` — $4.99/month
-- Add base plan: `cafe-yearly` — $24.99/year, with 1-week free trial
+- [ ] All Log.d lines removed from all monitoring files
 
 ---
 
-## STEP 7 — Add License Testers
+### STEP 5 — Create Release Keystore
 
-This lets you test purchases without real charges.
+**This file signs your app forever. Never lose it. Never commit it to Git.**
 
-1. Play Console → **Setup → License testing**
-2. Add your own Gmail address (and any testers' addresses)
-3. Set license response to **RESPOND_NORMALLY**
-4. Save
+Open PowerShell in your project folder:
 
----
-
-## STEP 8 — Create a Release Keystore
-
-This is the file that signs your app. **Keep it safe — you can never change it after publishing.**
-
-Open a terminal in your project folder and run:
-
-```bash
-keytool -genkey -v -keystore pawsup-release.jks \
-  -alias pawsup -keyalg RSA -keysize 2048 -validity 10000
+```powershell
+keytool -genkey -v -keystore pawsup-release.jks -alias pawsup -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-You will be asked for:
-- A keystore password (remember this)
-- Your name, organisation, city, country
-- A key password (can be same as keystore password)
+Write down the password. Move `pawsup-release.jks` somewhere safe **outside** the project folder.
 
-**Store this file somewhere safe outside the project. Never commit it to Git.**
+- [ ] Keystore created and stored safely
 
 ---
 
-## STEP 9 — Configure the Release Build
+### STEP 6 — Configure Release Signing in Code
 
-Open `app/build.gradle.kts` and add your signing info inside the `android { }` block:
+Open `app/build.gradle.kts`. Inside `android { }`, add before `buildTypes`:
 
 ```kotlin
 signingConfigs {
     create("release") {
-        storeFile = file("../pawsup-release.jks")   // path to your keystore
+        storeFile = file("/YOUR/SAFE/PATH/pawsup-release.jks")
         storePassword = "YOUR_KEYSTORE_PASSWORD"
         keyAlias = "pawsup"
         keyPassword = "YOUR_KEY_PASSWORD"
     }
 }
-
-buildTypes {
-    release {
-        isMinifyEnabled = true
-        isShrinkResources = true
-        proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        signingConfig = signingConfigs.getByName("release")  // add this line
-    }
-}
 ```
 
-> Tip: Move passwords to a `local.properties` file and read them from there — don't hardcode them in `build.gradle.kts`.
+Then inside the existing `release { }` block add:
+```kotlin
+signingConfig = signingConfigs.getByName("release")
+```
+
+- [ ] Signing config added to build.gradle.kts
 
 ---
 
-## STEP 10 — Remove Debug Logging
+### STEP 7 — Build the Release AAB
 
-Before building the release, remove the debug log lines from the monitoring service.
-
-Open `app/src/main/java/com/pawsup/monitoring/MonitoringService.kt` and delete every line that starts with `Log.d(TAG, ...)`. You can also delete the `private const val TAG = "PawsUp"` line and the `import android.util.Log` import.
-
----
-
-## STEP 11 — Build the Release AAB
-
-In your terminal, in the project folder:
-
-```bash
-./gradlew bundleRelease
+```powershell
+.\gradlew.bat bundleRelease
 ```
 
-The output file will be at:
+Output file:
 ```
 app/build/outputs/bundle/release/app-release.aab
 ```
 
----
-
-## STEP 12 — Upload to Internal Testing
-
-1. Play Console → your app → **Release → Testing → Internal testing**
-2. Click **Create new release**
-3. Under "App bundles", upload `app-release.aab`
-4. Write release notes (e.g. "Initial internal test")
-5. Click **Save and publish**
+- [ ] AAB built with no errors
 
 ---
 
-## STEP 13 — Test the Full Flow on a Real Device
+### STEP 8 — Host Privacy Policy and Terms
 
-Install the internal test build on your phone via the Play Store (search for it using the internal test link Play Console gives you).
+Create two web pages (GitHub Pages, Notion, or any free host):
+- `https://pawsup.app/privacy`
+- `https://pawsup.app/terms`
 
-Check each of these:
-- [ ] App opens and onboarding shows
-- [ ] All 3 permissions can be granted
-- [ ] Monitoring starts and the notification appears
-- [ ] An app you're watching triggers Miso after the visit limit
-- [ ] Entrance → idle → outro plays without any blink or gap
-- [ ] Tapping the cat plays the purr sound
-- [ ] The break ends and the recap toast shows
-- [ ] Settings shows all 3 tabs (Home, Café, Reliability)
-- [ ] Battery optimization fix button works in Reliability tab
-- [ ] Monitor Me toggle stops and restarts monitoring
-- [ ] Subscription purchase works (use your license tester account)
-- [ ] After purchase, the cat unlocks and is selectable in Café tab
-- [ ] Swipe app from recents — monitoring keeps running
-- [ ] Reboot phone — monitoring restarts automatically
+Minimum privacy policy content: app collects no data, everything stays on device, uninstalling removes all data, your contact email.
+
+- [ ] Privacy policy URL is live
+- [ ] Terms URL is live
 
 ---
 
-## STEP 14 — Fill in the Play Store Listing
+## ── PHASE 2: INTERNAL TESTING (dashboard section 1) ─────────────
 
-In Play Console → **Store presence → Main store listing**
+### STEP 9 — Select Testers for Internal Testing
 
-**App name:** PawsUp
+Play Console → **Testing → Internal testing → Testers tab**
 
-**Short description** (copy exactly):
-```
-A tiny cat café for your phone. Gentle screen-time breaks with adorable cats.
-```
+1. Click **Create email list**
+2. Name it "Core testers"
+3. Add your own Gmail address
+4. Click **Save changes**
 
-**Full description** — copy from `REDESIGN.md` → Appendix C
-
-**App icon:** Upload a 512×512 PNG
-
-**Feature graphic:** Upload a 1024×500 PNG (banner shown at top of Play Store page)
-
-**Screenshots:** Upload at least 4 screenshots from the app (1080×1920):
-- The break overlay with a cat on screen
-- The Settings home tab
-- The Café tab showing all 5 cats
-- The paywall
+- [ ] Tester email list created
 
 ---
 
-## STEP 15 — Complete the Data Safety Form
+### STEP 10 — Create and Publish Internal Testing Release
 
-Play Console → **Policy → Data safety**
+Play Console → **Testing → Internal testing → Releases tab**
 
-- Data collected: **No data collected**
-- Data shared: **No data shared**
-- Data deletion: select "Users can request deletion" → write: *"Uninstalling the app removes all data."*
+1. Click **Create new release**
+2. Click **Upload** → select `app-release.aab`
+3. Release name: `1.0.0`
+4. Release notes: `Initial internal test`
+5. Click **Next** → review summary → click **Save and publish**
 
-Save and submit.
-
----
-
-## STEP 16 — Submit the Sensitive Permissions Declaration
-
-Play Console → **Policy → App content → Sensitive permissions**
-
-For `PACKAGE_USAGE_STATS`:
-- Category: **Core app functionality**
-- Justification: *"PawsUp monitors which app is in the foreground to detect when a user-selected app has been used past their chosen time limit. This data never leaves the device."*
-
-For **Foreground service**:
-- Select: **Data sync / background fetch**
+- [ ] Internal testing release published
+- [ ] Install the app on your phone using the internal test link — confirm it opens correctly
 
 ---
 
-## STEP 17 — Complete the IARC Content Rating
+## ── PHASE 3: FINISH SETTING UP (dashboard section 2) ───────────
+
+Complete all items in this phase. Each one is a circle checkbox on your dashboard.
+
+---
+
+### STEP 11 — Set Privacy Policy
+
+Play Console → **Policy → App content → Privacy policy**
+
+1. Paste: `https://pawsup.app/privacy`
+2. Click **Save**
+
+- [ ] Done ✓
+
+---
+
+### STEP 12 — App Access
+
+Play Console → **Policy → App content → App access**
+
+1. Select **All functionality is available without special access**
+2. Click **Save**
+
+- [ ] Done ✓
+
+---
+
+### STEP 13 — Ads
+
+Play Console → **Policy → App content → Ads**
+
+1. Select **No, my app does not contain ads**
+2. Click **Save**
+
+- [ ] Done ✓
+
+---
+
+### STEP 14 — Content Rating
 
 Play Console → **Policy → App content → Content rating**
 
-- Click **Start questionnaire**
-- App type: Utility
-- Answer No to everything (no violence, no sexual content, no user interaction, etc.)
-- Expected result: **Everyone**
+1. Click **Start questionnaire**
+2. Enter your email
+3. Category: **Utility**
+4. Answer **No** to every question
+5. Click **Calculate rating** → expected result: **Everyone**
+6. Click **Apply rating**
+
+- [ ] Done ✓ — rating shows "Everyone"
 
 ---
 
-## STEP 18 — Complete All Other App Content Forms
+### STEP 15 — Target Audience
 
-Play Console → **Policy → App content**
+Play Console → **Policy → App content → Target audience**
 
-Go through each section and fill in:
-- **Ads:** No ads
-- **App access:** All functionality available without login
-- **Account deletion:** My app does not have accounts
-- **Target audience:** 13+
-- **Government / News / Health:** No, No, No
+1. Select **13 and over**
+2. "Does your app appeal to children?" → **No**
+3. Click **Save**
 
----
-
-## STEP 19 — Host Privacy Policy and Terms
-
-The app links to these URLs. You need them live before submitting for review.
-
-Create simple web pages at:
-- `https://pawsup.app/privacy` — Privacy Policy
-- `https://pawsup.app/terms` — Terms of Service
-
-Minimum privacy policy content:
-- What data the app collects (none)
-- That everything stays on-device
-- Contact email for questions
-
-Add the privacy policy URL in Play Console → **Policy → App content → Privacy policy**
+- [ ] Done ✓
 
 ---
 
-## STEP 20 — Promote to Production
+### STEP 16 — Data Safety
 
-Once internal testing passes with zero crashes:
+Play Console → **Policy → Data safety**
 
-1. Play Console → **Testing → Internal testing → Promote release → Production**
-2. Set rollout percentage to **20%** for the first few days (safer than 100%)
-3. Monitor crash reports in Play Console → **Android vitals**
-4. Once stable, increase to 100%
+1. "Does your app collect or share any user data?" → **No**
+2. "Is all data encrypted in transit?" → **Yes**
+3. "Do you provide a way for users to request data deletion?" → **Yes**
+   - Explain: *Uninstalling the app removes all data.*
+4. Click **Save** then **Submit**
+
+- [ ] Done ✓
 
 ---
 
-## Quick Reference — File Locations
+### STEP 17 — Government Apps
+
+Play Console → **Policy → App content → Government apps**
+
+1. Select **No** → Click **Save**
+
+- [ ] Done ✓
+
+---
+
+### STEP 18 — Financial Features
+
+Play Console → **Policy → App content → Financial features**
+
+1. Select **No** → Click **Save**
+
+- [ ] Done ✓
+
+---
+
+### STEP 19 — Health
+
+Play Console → **Policy → App content → Health**
+
+1. Select **No** → Click **Save**
+
+- [ ] Done ✓
+
+---
+
+### STEP 20 — App Category and Contact Details
+
+Play Console → **Store presence → App category**
+
+1. App type: **App**
+2. Category: **Health & Fitness**
+3. Add your contact email address
+4. Click **Save**
+
+- [ ] Done ✓
+
+---
+
+### STEP 21 — Set Up Store Listing
+
+Play Console → **Store presence → Main store listing**
+
+| Field | Value |
+|---|---|
+| App name | `PawsUp` |
+| Short description | `A tiny cat café for your phone. Gentle screen-time breaks with adorable cats.` |
+| Full description | Copy from `REDESIGN.md` → Appendix C |
+| App icon | 512×512 PNG |
+| Feature graphic | 1024×500 PNG |
+
+Screenshots (at least 4, minimum 1080×1920):
+- Break overlay with a cat on screen
+- Settings Home tab
+- Café tab showing all 5 cats
+- Paywall screen
+
+Click **Save**
+
+- [ ] Done ✓ — all fields saved
+
+---
+
+> All circles under "Finish setting up your app" should now be green.
+> **Now you can set up subscriptions** — the screen is unlocked at this point.
+
+---
+
+## ── PHASE 4: SET UP SUBSCRIPTIONS (now unlocked) ────────────────
+
+### STEP 22 — Create In-App Subscriptions
+
+Play Console → your app → **Monetize → Subscriptions** → **Create subscription**
+
+For each product:
+1. Enter the Product ID exactly as shown
+2. Add a name (e.g. "Yuki")
+3. Click **Add base plan**, fill in plan ID, billing period, price
+4. Add second base plan the same way
+5. Click **Save** then **Activate**
+
+| Product ID | Base plan ID | Billing | Price | Trial |
+|---|---|---|---|---|
+| `pawsup_yuki` | `yuki-monthly` | Monthly | $1.99 | None |
+| `pawsup_yuki` | `yuki-yearly` | Yearly | $9.99 | 7 days |
+| `pawsup_mocha` | `mocha-monthly` | Monthly | $1.99 | None |
+| `pawsup_mocha` | `mocha-yearly` | Yearly | $9.99 | 7 days |
+| `pawsup_shadow` | `shadow-monthly` | Monthly | $1.99 | None |
+| `pawsup_shadow` | `shadow-yearly` | Yearly | $9.99 | 7 days |
+| `pawsup_biscuit` | `biscuit-monthly` | Monthly | $1.99 | None |
+| `pawsup_biscuit` | `biscuit-yearly` | Yearly | $9.99 | 7 days |
+| `pawsup_cafe_bundle` | `cafe-monthly` | Monthly | $4.99 | None |
+| `pawsup_cafe_bundle` | `cafe-yearly` | Yearly | $24.99 | 7 days |
+
+- [ ] All 5 products created and activated
+
+---
+
+### STEP 23 — Add License Testers
+
+Play Console → **Setup → License testing**
+
+1. Click **Add license testers**
+2. Add your own Gmail address
+3. Set response to **RESPOND_NORMALLY**
+4. Click **Save**
+
+- [ ] Your Gmail added as license tester
+
+---
+
+### STEP 24 — Test Subscription Purchase
+
+Install the internal test build (already published in Step 10) and:
+
+1. Open the app → go to Café tab → tap a locked cat
+2. The paywall opens
+3. Tap **Adopt** — the Play billing sheet appears
+4. Complete the purchase (no real charge because you are a license tester)
+5. Cat should unlock immediately in the Café tab
+
+- [ ] Purchase flow works end to end with no errors
+
+---
+
+## ── PHASE 5: CLOSED TESTING (dashboard section 3) ──────────────
+
+### STEP 25 — Select Countries and Regions
+
+Play Console → **Testing → Closed testing** → **Create track** → name it `Alpha`
+
+Inside the Alpha track:
+1. Click **Countries / Regions** → **Add countries / regions**
+2. Select at minimum your own country
+3. Click **Save**
+
+- [ ] Countries selected
+
+---
+
+### STEP 26 — Select Testers for Closed Testing
+
+Inside the Alpha track → **Testers tab**
+
+1. Click **Create email list**
+2. Add at least **12 Gmail addresses** of real people who will test the app
+3. Send them the opt-in link that Play Console shows
+4. Each person must click the link and opt in from their phone
+
+> Google requires 12 testers actively opted-in before production is unlocked.
+
+- [ ] 12+ testers added to the email list
+- [ ] Opt-in link sent to all testers
+- [ ] At least 12 testers have opted in (check the counter on the dashboard)
+
+---
+
+### STEP 27 — Create and Publish Closed Testing Release
+
+Play Console → **Testing → Closed testing → Alpha → Releases tab**
+
+1. Click **Create new release**
+2. Upload the same `app-release.aab`
+3. Release name: `1.0.0`
+4. Click **Next** → **Save and publish**
+
+- [ ] Closed testing release published
+
+---
+
+### STEP 28 — Send Release to Google for Review
+
+After publishing the closed test release:
+
+1. Click **Send for review**
+2. Google will review — usually 1–3 days
+3. You will receive an email when approved
+
+- [ ] Submitted for Google review
+- [ ] Review passed
+
+---
+
+### STEP 29 — Run Closed Test for 14 Days
+
+After Google approves, your testers can install from the Play Store and use the app normally.
+
+- [ ] At least 12 testers are opted-in
+- [ ] Closed test has been running for at least **14 days**
+
+> The dashboard shows a live counter. You cannot apply for production until both boxes are met.
+
+---
+
+## ── PHASE 6: PRODUCTION (dashboard section 4) ───────────────────
+
+### STEP 30 — Apply for Production Access
+
+Once the 14-day / 12-tester requirement is met, the **"Apply for production access"** button on the dashboard becomes active.
+
+1. Play Console → **Production → Apply for production access**
+2. Answer any final questions
+3. Submit — Google approves within a few days
+
+- [ ] Applied for production access
+- [ ] Google approved
+
+---
+
+### STEP 31 — Publish to Production
+
+After approval:
+
+1. Play Console → **Production → Create new release**
+2. Upload `app-release.aab`
+3. Click **Next**
+4. Set rollout to **20%** (safer than 100% on day one)
+5. Click **Start rollout to production**
+
+- [ ] Published at 20% rollout
+- [ ] Monitor **Android vitals** for crashes over the first few days
+- [ ] Increase rollout to 100% once stable
+
+---
+
+## Quick Reference — All Asset File Locations
 
 ```
 app/src/main/assets/
   cats/
-    miso/     entrance.mp4  idle.mp4  outro.mp4  poster.webp
-    yuki/     entrance.mp4  idle.mp4  outro.mp4  poster.webp
-    mocha/    entrance.mp4  idle.mp4  outro.mp4  poster.webp
-    shadow/   entrance.mp4  idle.mp4  outro.mp4  poster.webp
-    biscuit/  entrance.mp4  idle.mp4  outro.mp4  poster.webp
+    miso/     entrance.mp4   idle.mp4   outro.mp4   poster.webp
+    yuki/     entrance.mp4   idle.mp4   outro.mp4   poster.webp
+    mocha/    entrance.mp4   idle.mp4   outro.mp4   poster.webp
+    shadow/   entrance.mp4   idle.mp4   outro.mp4   poster.webp
+    biscuit/  entrance.mp4   idle.mp4   outro.mp4   poster.webp
   sounds/
     greeting.mp3
     purr.mp3
 
-pawsup-release.jks   ← keep this safe, outside the project folder
+pawsup-release.jks  ← outside the project folder, never in Git
 ```
