@@ -1,5 +1,6 @@
 package com.pawsup.onboarding;
 
+import com.pawsup.cats.CatRegistry;
 import com.pawsup.data.UserPreferences;
 import dagger.MembersInjector;
 import dagger.internal.DaggerGenerated;
@@ -24,22 +25,32 @@ import javax.inject.Provider;
 public final class OnboardingActivity_MembersInjector implements MembersInjector<OnboardingActivity> {
   private final Provider<UserPreferences> prefsProvider;
 
-  public OnboardingActivity_MembersInjector(Provider<UserPreferences> prefsProvider) {
+  private final Provider<CatRegistry> catRegistryProvider;
+
+  public OnboardingActivity_MembersInjector(Provider<UserPreferences> prefsProvider,
+      Provider<CatRegistry> catRegistryProvider) {
     this.prefsProvider = prefsProvider;
+    this.catRegistryProvider = catRegistryProvider;
   }
 
-  public static MembersInjector<OnboardingActivity> create(
-      Provider<UserPreferences> prefsProvider) {
-    return new OnboardingActivity_MembersInjector(prefsProvider);
+  public static MembersInjector<OnboardingActivity> create(Provider<UserPreferences> prefsProvider,
+      Provider<CatRegistry> catRegistryProvider) {
+    return new OnboardingActivity_MembersInjector(prefsProvider, catRegistryProvider);
   }
 
   @Override
   public void injectMembers(OnboardingActivity instance) {
     injectPrefs(instance, prefsProvider.get());
+    injectCatRegistry(instance, catRegistryProvider.get());
   }
 
   @InjectedFieldSignature("com.pawsup.onboarding.OnboardingActivity.prefs")
   public static void injectPrefs(OnboardingActivity instance, UserPreferences prefs) {
     instance.prefs = prefs;
+  }
+
+  @InjectedFieldSignature("com.pawsup.onboarding.OnboardingActivity.catRegistry")
+  public static void injectCatRegistry(OnboardingActivity instance, CatRegistry catRegistry) {
+    instance.catRegistry = catRegistry;
   }
 }

@@ -458,6 +458,7 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
     private OnboardingActivity injectOnboardingActivity2(OnboardingActivity instance) {
       OnboardingActivity_MembersInjector.injectPrefs(instance, singletonCImpl.provideUserPreferencesProvider.get());
+      OnboardingActivity_MembersInjector.injectCatRegistry(instance, singletonCImpl.provideCatRegistryProvider.get());
       return instance;
     }
 
@@ -473,25 +474,25 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
+      static String com_pawsup_break_experience_BreakOverlayViewModel = "com.pawsup.break_experience.BreakOverlayViewModel";
 
       static String com_pawsup_apppicker_AppPickerViewModel = "com.pawsup.apppicker.AppPickerViewModel";
 
-      static String com_pawsup_break_experience_BreakOverlayViewModel = "com.pawsup.break_experience.BreakOverlayViewModel";
-
       static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
 
-      @KeepFieldType
-      PaywallViewModel com_pawsup_paywall_PaywallViewModel2;
-
-      @KeepFieldType
-      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
+      static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
 
       @KeepFieldType
       BreakOverlayViewModel com_pawsup_break_experience_BreakOverlayViewModel2;
 
       @KeepFieldType
+      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
+
+      @KeepFieldType
       SettingsViewModel com_pawsup_settings_SettingsViewModel2;
+
+      @KeepFieldType
+      PaywallViewModel com_pawsup_paywall_PaywallViewModel2;
     }
   }
 
@@ -543,13 +544,16 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
+      static String com_pawsup_apppicker_AppPickerViewModel = "com.pawsup.apppicker.AppPickerViewModel";
+
       static String com_pawsup_settings_SettingsViewModel = "com.pawsup.settings.SettingsViewModel";
 
       static String com_pawsup_break_experience_BreakOverlayViewModel = "com.pawsup.break_experience.BreakOverlayViewModel";
 
       static String com_pawsup_paywall_PaywallViewModel = "com.pawsup.paywall.PaywallViewModel";
 
-      static String com_pawsup_apppicker_AppPickerViewModel = "com.pawsup.apppicker.AppPickerViewModel";
+      @KeepFieldType
+      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
 
       @KeepFieldType
       SettingsViewModel com_pawsup_settings_SettingsViewModel2;
@@ -559,9 +563,6 @@ public final class DaggerPawsUpApplication_HiltComponents_SingletonC {
 
       @KeepFieldType
       PaywallViewModel com_pawsup_paywall_PaywallViewModel2;
-
-      @KeepFieldType
-      AppPickerViewModel com_pawsup_apppicker_AppPickerViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {

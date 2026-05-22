@@ -385,6 +385,26 @@ private fun ReliabilityTab(state: SettingsUiState) {
         }
 
         Spacer(Modifier.height(32.dp))
+        HorizontalDivider(color = Color.White.copy(0.1f))
+        Spacer(Modifier.height(16.dp))
+
+        TextButton(
+            onClick = {
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.techniact.com/apps/pawsup/privacy-policy"))
+                )
+            },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                "Privacy Policy",
+                color = Color(0xFFE8A87C).copy(0.7f),
+                fontSize = 13.sp
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
     }
 }
 

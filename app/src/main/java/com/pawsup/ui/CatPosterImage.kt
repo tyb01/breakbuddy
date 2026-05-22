@@ -1,7 +1,12 @@
 package com.pawsup.ui
 
 import android.graphics.BitmapFactory
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -61,13 +66,23 @@ fun CatPosterImage(
         }
     }
 
-    bitmap?.let {
-        Image(
-            bitmap = it,
-            contentDescription = cat.displayName,
-            modifier = modifier,
-            contentScale = contentScale
-        )
+    // Box always occupies the full requested space (weight, size, etc.) so the
+    // surrounding layout never shifts when the bitmap fades in.
+    Box(modifier = modifier) {
+        AnimatedVisibility(
+            visible = bitmap != null,
+            enter = fadeIn(animationSpec = tween(250)),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            bitmap?.let {
+                Image(
+                    bitmap = it,
+                    contentDescription = cat.displayName,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = contentScale
+                )
+            }
+        }
     }
 }
 
