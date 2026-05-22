@@ -2,7 +2,6 @@ package com.pawsup.monitoring
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.*
@@ -10,8 +9,6 @@ import com.pawsup.data.UserPreferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
-
-private const val TAG = "PawsUp"
 
 @HiltWorker
 class WatchdogWorker @AssistedInject constructor(
@@ -22,12 +19,8 @@ class WatchdogWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        if (!prefs.snapshotMonitorMeEnabled()) {
-            Log.d(TAG, "watchdog: Monitor Me is OFF — skipping restart")
-            return Result.success()
-        }
+        if (!prefs.snapshotMonitorMeEnabled()) return Result.success()
         if (!repo.isServiceRunning) {
-            Log.d(TAG, "watchdog: service not running — restarting")
             ContextCompat.startForegroundService(
                 applicationContext,
                 Intent(applicationContext, MonitoringService::class.java)

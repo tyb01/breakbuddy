@@ -495,6 +495,7 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color ic_launcher_background
 color ic_launcher_bg
 color material_blue_grey_800
 color material_blue_grey_900
@@ -894,6 +895,7 @@ drawable ic_call_decline_low
 drawable ic_facebook
 drawable ic_instagram
 drawable ic_launcher_cat
+drawable ic_launcher_foreground
 drawable ic_linkedin
 drawable ic_reddit
 drawable ic_snapchat
@@ -1271,6 +1273,8 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+mipmap ic_launcher
+mipmap ic_launcher_round
 plurals exo_controls_fastforward_by_amount_description
 plurals exo_controls_rewind_by_amount_description
 plurals notif_break_body_minutes

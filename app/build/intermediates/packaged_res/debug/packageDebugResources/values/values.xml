@@ -4,7 +4,8 @@
     <color name="color_background_warm">#2A1F1A</color>
     <color name="color_miso_mood">#E8A87C</color>
     <color name="color_text_cream">#F5ECD7</color>
-    <color name="ic_launcher_bg">#1A1208</color>
+    <color name="ic_launcher_background">#2B1F2E</color>
+    <color name="ic_launcher_bg">#2B1F2E</color>
     <plurals name="notif_break_body_minutes">
         <item quantity="one">%1$s suggests about %2$d minute to reset — or leave the app to continue.</item>
         <item quantity="other">%1$s suggests about %2$d minutes to reset — or leave the app to continue.</item>
@@ -73,7 +74,7 @@
     <string name="share_card_watermark">PawsUp — a cat café in your pocket</string>
     <string name="share_text">I took a %1$s break with %2$s today 🐾 #PawsUp</string>
     <style name="Theme.PawsUp" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@color/ic_launcher_bg</item>
+        <item name="android:windowBackground">@color/ic_launcher_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>

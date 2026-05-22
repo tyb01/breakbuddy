@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight;
 import androidx.compose.ui.text.style.TextAlign;
 import androidx.core.content.ContextCompat;
 import com.pawsup.R;
-import com.pawsup.apppicker.AppPickerActivity;
 import com.pawsup.cats.CatAssetResolver;
 import com.pawsup.data.UserPreferences;
 import com.pawsup.monitoring.MonitoringService;

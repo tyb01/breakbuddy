@@ -97,11 +97,11 @@
 51-->[androidx.core:core:1.13.1] C:\Users\hp\.gradle\caches\8.9\transforms\08ffa2e545aaeb9ab2606b852f4ae7fb\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 52        android:debuggable="true"
 53        android:extractNativeLibs="false"
-54        android:icon="@drawable/ic_launcher_cat"
-54-->C:\Users\hp\Desktop\Personal\PawsUp\app\src\main\AndroidManifest.xml:29:9-49
+54        android:icon="@mipmap/ic_launcher"
+54-->C:\Users\hp\Desktop\Personal\PawsUp\app\src\main\AndroidManifest.xml:29:9-43
 55        android:label="@string/app_name"
 55-->C:\Users\hp\Desktop\Personal\PawsUp\app\src\main\AndroidManifest.xml:30:9-41
-56        android:roundIcon="@drawable/ic_launcher_cat"
+56        android:roundIcon="@mipmap/ic_launcher_round"
 56-->C:\Users\hp\Desktop\Personal\PawsUp\app\src\main\AndroidManifest.xml:31:9-54
 57        android:supportsRtl="true"
 57-->C:\Users\hp\Desktop\Personal\PawsUp\app\src\main\AndroidManifest.xml:32:9-35

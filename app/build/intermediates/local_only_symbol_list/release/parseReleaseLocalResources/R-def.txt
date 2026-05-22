@@ -4,10 +4,12 @@ color color_background_dark
 color color_background_warm
 color color_miso_mood
 color color_text_cream
+color ic_launcher_background
 color ic_launcher_bg
 drawable ic_facebook
 drawable ic_instagram
 drawable ic_launcher_cat
+drawable ic_launcher_foreground
 drawable ic_linkedin
 drawable ic_reddit
 drawable ic_snapchat
@@ -23,6 +25,8 @@ font crimsontext_semibolditalic
 id notif_line1
 id notif_line2
 layout notification_monitoring
+mipmap ic_launcher
+mipmap ic_launcher_round
 plurals notif_break_body_minutes
 string app_name
 string app_picker_done

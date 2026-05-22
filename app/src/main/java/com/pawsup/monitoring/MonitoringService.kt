@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.pawsup.R
 import com.pawsup.break_experience.BreakOverlayActivity
@@ -16,8 +15,6 @@ import com.pawsup.data.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
-
-private const val TAG = "PawsUp"
 
 @AndroidEntryPoint
 class MonitoringService : Service() {
@@ -41,19 +38,14 @@ class MonitoringService : Service() {
             startForeground(NOTIF_ID, notification)
         }
         WatchdogWorker.enqueue(this)
-        AlarmScheduler.schedule(this)   // exact-alarm keep-alive (Doze-immune)
+        AlarmScheduler.schedule(this)
         startPolling()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // When Android restarts the service via START_STICKY (intent == null),
-        // verify Monitor Me is still enabled before continuing.
         if (intent == null) {
             scope.launch {
-                if (!prefs.snapshotMonitorMeEnabled()) {
-                    Log.d(TAG, "service: Monitor Me disabled — stopping self")
-                    stopSelf()
-                }
+                if (!prefs.snapshotMonitorMeEnabled()) stopSelf()
             }
         }
         return START_STICKY
@@ -63,9 +55,6 @@ class MonitoringService : Service() {
         super.onDestroy()
         repo.isServiceRunning = false
         scope.cancel()
-        // Alarm is intentionally left running — KeepAliveReceiver will restart the
-        // service unless Monitor Me is OFF. If Monitor Me is OFF, the receiver
-        // checks and skips. AlarmScheduler.cancel() is called explicitly by SettingsViewModel.
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -73,9 +62,7 @@ class MonitoringService : Service() {
     private fun startPolling() {
         scope.launch {
             while (isActive) {
-                try { onPoll() } catch (e: Exception) {
-                    Log.e(TAG, "poll error: ${e.message}")
-                }
+                try { onPoll() } catch (e: Exception) { /* keep polling on any error */ }
                 delay(2_000)
             }
         }
@@ -83,18 +70,12 @@ class MonitoringService : Service() {
 
     private suspend fun onPoll() {
         val monitored = prefs.snapshotMonitoredPackages()
-        if (monitored.isEmpty()) {
-            Log.d(TAG, "poll: no monitored packages")
-            return
-        }
+        if (monitored.isEmpty()) return
 
-        // Read visit limit on every poll so Settings changes are picked up immediately.
         val maxMin = prefs.snapshotMaxMinutes()
-        // Query window = at least double the visit limit, minimum 10 minutes.
         val windowMs = maxOf(maxMin * 60_000L * 2, 600_000L)
 
         val foreground = getForegroundPackage(windowMs)
-        Log.d(TAG, "poll: foreground=$foreground  monitored=$monitored  session=$currentSessionPackage")
 
         if (foreground == null || foreground !in monitored) {
             if (currentSessionPackage != null) {
@@ -108,16 +89,12 @@ class MonitoringService : Service() {
             currentSessionPackage = foreground
             sessionStartTime = System.currentTimeMillis()
             breakFireable = true
-            Log.d(TAG, "poll: session started for $foreground")
             return
         }
 
         val elapsedSec = (System.currentTimeMillis() - sessionStartTime) / 1_000
-        Log.d(TAG, "poll: ${elapsedSec}s elapsed, limit=${maxMin}min, fireable=$breakFireable")
-
         if (elapsedSec >= maxMin * 60L && breakFireable) {
             breakFireable = false
-            Log.d(TAG, "poll: FIRING break overlay!")
             fireBreakOverlay()
         }
     }
@@ -133,11 +110,6 @@ class MonitoringService : Service() {
         )
     }
 
-    /**
-     * Returns the package with the most recent ACTIVITY_RESUMED event.
-     * [windowMs] is read from the configured visit limit (2× the limit, min 10 min)
-     * so the event stays in-window for the entire session duration.
-     */
     private fun getForegroundPackage(windowMs: Long): String? {
         val usm = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         val now = System.currentTimeMillis()

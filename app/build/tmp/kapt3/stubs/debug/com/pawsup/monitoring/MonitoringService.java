@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import com.pawsup.R;
 import com.pawsup.break_experience.BreakOverlayActivity;
@@ -88,11 +87,6 @@ public final class MonitoringService extends android.app.Service {
         return null;
     }
     
-    /**
-     * Returns the package with the most recent ACTIVITY_RESUMED event.
-     * [windowMs] is read from the configured visit limit (2× the limit, min 10 min)
-     * so the event stays in-window for the entire session duration.
-     */
     private final java.lang.String getForegroundPackage(long windowMs) {
         return null;
     }

@@ -2,7 +2,6 @@ package com.pawsup.monitoring;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import androidx.core.content.ContextCompat;
 import androidx.hilt.work.HiltWorker;
 import androidx.work.*;

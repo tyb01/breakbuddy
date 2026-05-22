@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.pawsup.R
-import com.pawsup.apppicker.AppPickerActivity
 import com.pawsup.cats.CatAssetResolver
 import com.pawsup.break_experience.components.VideoPlayerCompositor
 import com.pawsup.data.UserPreferences
@@ -60,9 +59,6 @@ class OnboardingActivity : ComponentActivity() {
                 OnboardingFlow(
                     step = currentStep,
                     onNext = { currentStep++ },
-                    onOpenAppPicker = {
-                        startActivity(Intent(this, AppPickerActivity::class.java))
-                    },
                     onGrantUsage = {
                         startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
                     },
@@ -118,7 +114,6 @@ class OnboardingActivity : ComponentActivity() {
 private fun OnboardingFlow(
     step: Int,
     onNext: () -> Unit,
-    onOpenAppPicker: () -> Unit,
     onGrantUsage: () -> Unit,
     onGrantOverlay: () -> Unit,
     onGrantNotifications: () -> Unit,
@@ -136,11 +131,9 @@ private fun OnboardingFlow(
     ) { currentStep ->
         when (currentStep) {
             0 -> WelcomeStep(onNext)
-            1 -> AppPickerStep(onOpenAppPicker, onNext)
-            2 -> LimitsStep(onNext)
-            3 -> PermissionsStep(onGrantUsage, onGrantOverlay, onGrantNotifications, onNext,
+            1 -> PermissionsStep(onGrantUsage, onGrantOverlay, onGrantNotifications, onNext,
                 isUsageGranted, isOverlayGranted, isNotifGranted)
-            4 -> MeetMisoStep(onFinish)
+            2 -> MeetMisoStep(onFinish)
             else -> MeetMisoStep(onFinish)
         }
     }
@@ -159,7 +152,7 @@ private fun WelcomeStep(onNext: () -> Unit) {
     ) {
         val bitmap = remember {
             runCatching {
-                context.assets.open(CatAssetResolver.poster("miso")).use {
+                context.assets.open("onboarding/onboarding_pic.png").use {
                     BitmapFactory.decodeStream(it)?.asImageBitmap()
                 }
             }.getOrNull()
@@ -193,88 +186,6 @@ private fun WelcomeStep(onNext: () -> Unit) {
     }
 }
 
-@Composable
-private fun AppPickerStep(onOpenPicker: () -> Unit, onNext: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF0F0A08))
-            .padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = stringResource(R.string.onboarding_apps_subtitle),
-            fontSize = 20.sp,
-            color = Color(0xFFF5ECD7),
-            textAlign = TextAlign.Center,
-            fontFamily = CrimsonTextFamily
-        )
-        Spacer(Modifier.height(32.dp))
-        Button(onClick = onOpenPicker, modifier = Modifier.fillMaxWidth()) {
-            Text("Choose apps to watch", fontSize = 16.sp)
-        }
-        Spacer(Modifier.height(16.dp))
-        Button(onClick = onNext, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.onboarding_apps_cta), fontSize = 16.sp)
-        }
-    }
-}
-
-@Composable
-private fun LimitsStep(onNext: () -> Unit) {
-    var visitMin by remember { mutableIntStateOf(15) }
-    var breakMin by remember { mutableIntStateOf(5) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF0F0A08))
-            .padding(32.dp)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(Modifier.height(60.dp))
-        Text(
-            "Set your limits",
-            fontFamily = CrimsonTextFamily,
-            fontSize = 28.sp,
-            color = Color(0xFFF5ECD7)
-        )
-        Spacer(Modifier.height(32.dp))
-
-        Text(
-            stringResource(R.string.onboarding_visit_label, visitMin),
-            color = Color(0xFFF5ECD7),
-            fontSize = 16.sp
-        )
-        Slider(
-            value = visitMin.toFloat(),
-            onValueChange = { visitMin = it.toInt() },
-            valueRange = 1f..30f,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(Modifier.height(24.dp))
-
-        Text(
-            stringResource(R.string.onboarding_break_label, breakMin),
-            color = Color(0xFFF5ECD7),
-            fontSize = 16.sp
-        )
-        Slider(
-            value = breakMin.toFloat(),
-            onValueChange = { breakMin = it.toInt() },
-            valueRange = 1f..15f,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(Modifier.height(48.dp))
-        Button(onClick = onNext, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.onboarding_limits_cta), fontSize = 16.sp)
-        }
-    }
-}
 
 @Composable
 private fun PermissionsStep(
@@ -392,7 +303,7 @@ private fun MeetMisoStep(onFinish: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0F0A08)),
+            .background(Color(0xFF000000)),
         contentAlignment = Alignment.Center
     ) {
         VideoPlayerCompositor(
