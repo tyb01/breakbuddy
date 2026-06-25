@@ -5,10 +5,10 @@ data class Entitlements(
     val hasCafeBundle: Boolean,
     val lastSyncedAt: Long
 ) {
-    fun owns(catId: String) = catId == "miso" || hasCafeBundle || catId in ownedCatIds
+    fun owns(catId: String) = catId == "miso" || catId == "mocha" || hasCafeBundle || catId in ownedCatIds
 
     companion object {
-        val DEFAULT = Entitlements(setOf("miso"), false, 0L)
+        val DEFAULT = Entitlements(setOf("miso", "mocha"), false, 0L)
         private const val OFFLINE_FALLBACK_DAYS = 14L
         private const val MS_PER_DAY = 86_400_000L
 

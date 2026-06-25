@@ -43,7 +43,7 @@ class BillingRepository @Inject constructor(
     }
 
     private suspend fun syncPurchasesToPrefs(purchases: List<Purchase>) {
-        val owned = mutableSetOf("miso")
+        val owned = mutableSetOf("miso", "mocha")
         var hasBundle = false
         purchases.filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }.forEach { p ->
             p.products.forEach { productId ->

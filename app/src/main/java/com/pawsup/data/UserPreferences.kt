@@ -24,7 +24,7 @@ class UserPreferences @Inject constructor(
     val maxMinutesPerVisit: Flow<Int>        = store.data.map { it[DataStoreKeys.MAX_MINUTES_PER_VISIT] ?: 15 }
     val breakDurationMinutes: Flow<Int>      = store.data.map { it[DataStoreKeys.BREAK_DURATION_MINUTES] ?: 2 }
     val activeCatId: Flow<String>            = store.data.map { it[DataStoreKeys.ACTIVE_CAT_ID] ?: "miso" }
-    val ownedCatIds: Flow<Set<String>>       = store.data.map { it[DataStoreKeys.OWNED_CAT_IDS] ?: setOf("miso") }
+    val ownedCatIds: Flow<Set<String>>       = store.data.map { it[DataStoreKeys.OWNED_CAT_IDS] ?: setOf("miso", "mocha") }
     val hasCafeBundle: Flow<Boolean>         = store.data.map { it[DataStoreKeys.HAS_CAFE_BUNDLE] ?: false }
     val entitlementsLastSynced: Flow<Long>   = store.data.map { it[DataStoreKeys.ENTITLEMENTS_LAST_SYNCED] ?: 0L }
     val totalBreaksCompleted: Flow<Int>      = store.data.map { it[DataStoreKeys.TOTAL_BREAKS_COMPLETED] ?: 0 }
@@ -67,6 +67,6 @@ class UserPreferences @Inject constructor(
     suspend fun snapshotBreakMinutes(): Int                = store.data.first()[DataStoreKeys.BREAK_DURATION_MINUTES] ?: 2
     suspend fun snapshotActiveCatId(): String              = store.data.first()[DataStoreKeys.ACTIVE_CAT_ID] ?: "miso"
     suspend fun snapshotTotalBreaks(): Int                 = store.data.first()[DataStoreKeys.TOTAL_BREAKS_COMPLETED] ?: 0
-    suspend fun snapshotOwnedCatIds(): Set<String>         = store.data.first()[DataStoreKeys.OWNED_CAT_IDS] ?: setOf("miso")
+    suspend fun snapshotOwnedCatIds(): Set<String>         = store.data.first()[DataStoreKeys.OWNED_CAT_IDS] ?: setOf("miso", "mocha")
     suspend fun snapshotHasCafeBundle(): Boolean           = store.data.first()[DataStoreKeys.HAS_CAFE_BUNDLE] ?: false
 }
